@@ -8,4 +8,6 @@ public interface ProductService {
     ServerResponse<Category> baseCategory(Integer pid);
 
     ServerResponse<Product> detail(Integer productId);
+
+    ServerResponse<Product> list(String keyWord,Integer pageName,Integer pageSize,String orderBy);
 }

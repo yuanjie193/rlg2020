@@ -1,5 +1,7 @@
 package com.itdr.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.itdr.common.ServerResponse;
 import com.itdr.config.Const;
 import com.itdr.mapper.CategoryMapper;
@@ -11,11 +13,13 @@ import com.itdr.service.ProductService;
 import com.itdr.utils.ObjectToVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ProductServiceImpl implements ProductService {
+public  class ProductServiceImpl implements ProductService {
     @Autowired
     private  ProductMapper productMapper;
     @Autowired
@@ -48,5 +52,37 @@ public class ProductServiceImpl implements ProductService {
         ProductVO productVO = ObjectToVOUtil.ProductToVO(product);
         //返回成功数据
         return ServerResponse.successRS(productVO);
+    }
+
+    @Override
+    public ServerResponse<Product> list(String keyWord, Integer pageName, Integer pageSize, String orderBy) {
+        //非空判断
+        if(StringUtils.isEmpty(keyWord)){
+            return ServerResponse.defeatedRS(Const.ProductEnum.ERROR_PAMAR.getCode(),
+                    Const.ProductEnum.ERROR_PAMAR.getDesc());
+        }
+        //排序参数处理
+        String[] split = new String[2];
+        if(!StringUtils.isEmpty(orderBy)){
+             split = orderBy.split("_");
+        }
+
+        //模糊查询
+        String word = "%"+keyWord+"%";
+        //开启分页
+        PageHelper.startPage(pageName,pageSize,split[0]+" "+split[1]);
+        List<Product> li =  productMapper.selectByName(word);
+        PageInfo pageInfo = new PageInfo(li);
+
+       //封装Vo
+        List<ProductVO> liNew = new ArrayList<ProductVO>();
+        for (Product product : li) {
+            ProductVO productVO = ObjectToVOUtil.ProductToVO(product);
+            liNew.add(productVO);
+        }
+
+        pageInfo.setList(liNew);
+        //返回成功数据
+        return ServerResponse.successRS(pageInfo);
     }
 }
