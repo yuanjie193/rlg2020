@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public ServerResponse login(String username, String password) {
-//        参数非空判断
+        //        参数非空判断
         if(StringUtils.isEmpty(username)){
             return ServerResponse.defeatedRS(Const.UserEnum.EMPTY_USERNAME.getCode(),
                     Const.UserEnum.EMPTY_USERNAME.getDesc());

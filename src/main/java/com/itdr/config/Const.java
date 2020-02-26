@@ -4,9 +4,10 @@ public class Const {
 
         public static final int DEFAULT_SUCCESS=200;
         public static final int DEFAULT_FAIL=100;
+        public static final String UNLAWFULNESS_PARAM ="非法的参数";
 
 
-
+        //用户枚举类
         public enum UserEnum {
             //状态信息
             ERROR_PASSWORD(1, "密码错误"),
@@ -61,7 +62,7 @@ public class Const {
                 this.desc = desc;
             }
         }
-
+    //商品枚举类
     public enum ProductEnum {
 
         PRODUCT_ONLINE(1, "在售"),
@@ -73,6 +74,48 @@ public class Const {
         private String desc;
 
         private ProductEnum(int code, String desc) {
+            this.code = code;
+            this.desc = desc;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public void setCode(int code) {
+            this.code = code;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public void setDesc(String desc) {
+            this.desc = desc;
+        }
+    }
+    //购物车枚举类
+    public enum CartCheckedEnum {
+        EMPTY_PARAM(100, "参数不能为空"),
+        BZ_XQ(101, "商品详情页更新数量"),
+        BZ_GWC(102, "购物车页面更新数量"),
+        PRODUCT_CHECKED(1, "已勾选"),
+        PRODUCT_UNCHECKED(0, "未勾选"),
+        NO_SESSION(Const.DEFAULT_FAIL, "用户未登录,请登录"),
+        EMPTY_CART(Const.DEFAULT_FAIL, "购物车暂时还没有商品喔~"),
+        FALSE_UPDATE(Const.DEFAULT_FAIL, "更新数据失败"),
+        UNEXIST_P(Const.DEFAULT_FAIL, "商品不存在"),
+        ADD_PRODUCT_FAIL(103,"添加商品失败"),
+        REDUCE_PRODUCT_FAIL(104,"减少商品失败"),
+        BEYOND_STOCK(104,"商品库存不足"),
+        PRODUCT_NULL(105,"暂无此商品"),
+        DELETE_FAYL(106,"删除失败"),
+        CART_TYPE(0,"增加");
+
+        private int code;
+        private String desc;
+
+        private CartCheckedEnum(int code, String desc) {
             this.code = code;
             this.desc = desc;
         }
