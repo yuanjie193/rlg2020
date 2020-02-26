@@ -19,28 +19,38 @@
     id, user_id, receiver_name, receiver_phone, receiver_mobile, receiver_province, receiver_city, 
     receiver_district, receiver_address, receiver_zip, create_time, update_time
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap"  >
     select 
     <include refid="Base_Column_List" />
     from gb_shopping
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <!--查询用户的所有收货地址-->
+  <select id="selectByUserID" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from gb_shopping
+    where user_id = #{userID,jdbcType=INTEGER}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from gb_shopping
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
+  <!--插入收获地址-->
   <insert id="insert" parameterType="com.itdr.pojo.Shopping" >
     insert into gb_shopping (id, user_id, receiver_name, 
       receiver_phone, receiver_mobile, receiver_province, 
       receiver_city, receiver_district, receiver_address, 
       receiver_zip, create_time, update_time
       )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{receiverName,jdbcType=VARCHAR}, 
+    values (null, #{userId,jdbcType=INTEGER}, #{receiverName,jdbcType=VARCHAR},
       #{receiverPhone,jdbcType=VARCHAR}, #{receiverMobile,jdbcType=VARCHAR}, #{receiverProvince,jdbcType=VARCHAR}, 
       #{receiverCity,jdbcType=VARCHAR}, #{receiverDistrict,jdbcType=VARCHAR}, #{receiverAddress,jdbcType=VARCHAR}, 
-      #{receiverZip,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
-      )
+      #{receiverZip,jdbcType=VARCHAR}, now(), now())
   </insert>
+
   <insert id="insertSelective" parameterType="com.itdr.pojo.Shopping" >
     insert into gb_shopping
     <trim prefix="(" suffix=")" suffixOverrides="," >

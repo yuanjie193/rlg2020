@@ -136,5 +136,33 @@ public class Const {
             this.desc = desc;
         }
     }
+    //购物车枚举类
+    public enum ShoppingEnum {
+        EMPTY_PARAM(100, "参数不能为空"),
+        FAIL_ADD(101,"地址添加失败");
 
+        private int code;
+        private String desc;
+
+        private ShoppingEnum(int code, String desc) {
+            this.code = code;
+            this.desc = desc;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public void setCode(int code) {
+            this.code = code;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public void setDesc(String desc) {
+            this.desc = desc;
+        }
+    }
     }
