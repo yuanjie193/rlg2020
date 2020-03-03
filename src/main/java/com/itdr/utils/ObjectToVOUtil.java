@@ -3,12 +3,10 @@ package com.itdr.utils;
 import com.alipay.api.domain.ExtendParams;
 import com.alipay.api.domain.GoodsDetail;
 import com.itdr.config.pay.BizContent;
+import com.itdr.config.pay.Configs;
 import com.itdr.config.pay.PGoodsDetail;
 import com.itdr.pojo.*;
-import com.itdr.pojo.vo.CartProductVO;
-import com.itdr.pojo.vo.CartVO;
-import com.itdr.pojo.vo.ProductVO;
-import com.itdr.pojo.vo.UsersVO;
+import com.itdr.pojo.vo.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -159,7 +157,7 @@ public class ObjectToVOUtil {
         biz.setExtend_params(extendParams);
         biz.setTimeout_express(timeoutExpress);
         //支付宝服务器主动通知商户服务器里指定的页面http路径,根据需要设置
-        //biz.setNotify_url(Configs.getNotifyUrl_test()+"portal/order/alipay_callback.do");
+        biz.setNotify_url(Configs.getNotifyUrl_test());
         biz.setGoods_detail(goodsDetailList);
 
         return biz;
@@ -176,5 +174,47 @@ public class ObjectToVOUtil {
         info.setPrice(orderItem.getCurrentUnitPrice().toString());
         info.setQuantity(orderItem.getQuantity().longValue());
         return info;
+    }
+
+    /**
+     * 封装商品详情
+     * @param orderItem
+     * @return
+     */
+    public static OrderItemVO orderItemToOrderItemVO(OrderItem orderItem){
+        OrderItemVO orderItemVO = new OrderItemVO();
+        orderItemVO.setOrderNo(orderItem.getOrderNo());
+        orderItemVO.setProductId(orderItem.getProductId());
+        orderItemVO.setProductName(orderItem.getProductName());
+        orderItemVO.setProductImage(orderItem.getProductImage());
+        orderItemVO.setCurrentUnitPrice(orderItem.getCurrentUnitPrice());
+        orderItemVO.setQuantity(orderItem.getQuantity());
+        orderItemVO.setTotalPrice(orderItem.getTotalPrice());
+        return orderItemVO;
+    }
+
+    /**
+     * 封装地址详情
+     * @param shopping
+     * @return
+     */
+    public static ShoppingVO shippingToShippingVO(Shopping shopping){
+        ShoppingVO shoppingVO = new ShoppingVO();
+        shoppingVO.setReceiverName(shopping.getReceiverName());
+        shoppingVO.setReceiverPhone(shopping.getReceiverPhone());
+        shoppingVO.setReceiverMobile(shopping.getReceiverMobile());
+        shoppingVO.setReceiverCity(shopping.getReceiverCity());
+        shoppingVO.setReceiverDistrict(shopping.getReceiverDistrict());
+        shoppingVO.setReceiverProvince(shopping.getReceiverProvince());
+        shoppingVO.setReceiverAddress(shopping.getReceiverAddress());
+        shoppingVO.setReceiverZip(shopping.getReceiverZip());
+        return shoppingVO;
+    }
+    public static OrderMsgVO getOrderMsgVO(List<OrderItemVO> orderItemVOList,BigDecimal productTotalPrice){
+        OrderMsgVO orderMsgVO = new OrderMsgVO();
+        orderMsgVO.setOrderItemVOList(orderItemVOList);
+        orderMsgVO.setImageHost(PropertiesUtil.getValue("ImageHost"));
+        orderMsgVO.setProductTotalPrice(productTotalPrice);
+        return orderMsgVO;
     }
 }

@@ -19,11 +19,12 @@
     id, user_id, receiver_name, receiver_phone, receiver_mobile, receiver_province, receiver_city, 
     receiver_district, receiver_address, receiver_zip, create_time, update_time
   </sql>
+  <!--根据收获地址ID和用户ID查询地址-->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap"  >
     select 
     <include refid="Base_Column_List" />
     from gb_shopping
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER} and user_id=#{uid}
   </select>
   <!--查询用户的所有收货地址-->
   <select id="selectByUserID" resultMap="BaseResultMap">
@@ -32,10 +33,22 @@
     from gb_shopping
     where user_id = #{userID,jdbcType=INTEGER}
   </select>
+  <!--根据收获地址ID查询地址-->
+    <select id="selectByShoppingID" resultMap="BaseResultMap" >
+      select
+      <include refid="Base_Column_List" />
+      from gb_shopping
+      where id = #{shoppingID,jdbcType=INTEGER}
+    </select>
 
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from gb_shopping
     where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <delete id="deleteByPrimaryKeyAndUserID">
+    delete from gb_shopping
+    where id = #{shoppingID,jdbcType=INTEGER} and user_id=#{uid}
   </delete>
 
   <!--插入收获地址-->
@@ -130,45 +143,39 @@
       </if>
     </trim>
   </insert>
+  <!--更新地址-->
   <update id="updateByPrimaryKeySelective" parameterType="com.itdr.pojo.Shopping" >
     update gb_shopping
     <set >
-      <if test="userId != null" >
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="receiverName != null" >
+      <if test="receiverName != null and receiverName != ''" >
         receiver_name = #{receiverName,jdbcType=VARCHAR},
       </if>
-      <if test="receiverPhone != null" >
+      <if test="receiverPhone != null and receiverPhone != '' " >
         receiver_phone = #{receiverPhone,jdbcType=VARCHAR},
       </if>
-      <if test="receiverMobile != null" >
+      <if test="receiverMobile != null and receiverMobile != ''" >
         receiver_mobile = #{receiverMobile,jdbcType=VARCHAR},
       </if>
-      <if test="receiverProvince != null" >
+      <if test="receiverProvince != null and receiverProvince != ''" >
         receiver_province = #{receiverProvince,jdbcType=VARCHAR},
       </if>
-      <if test="receiverCity != null" >
+      <if test="receiverCity != null and receiverCity != ''"  >
         receiver_city = #{receiverCity,jdbcType=VARCHAR},
       </if>
-      <if test="receiverDistrict != null" >
+      <if test="receiverDistrict != null and receiverDistrict != ''" >
         receiver_district = #{receiverDistrict,jdbcType=VARCHAR},
       </if>
-      <if test="receiverAddress != null" >
+      <if test="receiverAddress != null and receiverAddress != ''" >
         receiver_address = #{receiverAddress,jdbcType=VARCHAR},
       </if>
-      <if test="receiverZip != null" >
+      <if test="receiverZip != null and receiverZip != ''" >
         receiver_zip = #{receiverZip,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
+        update_time = now(),
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
   <update id="updateByPrimaryKey" parameterType="com.itdr.pojo.Shopping" >
     update gb_shopping
     set user_id = #{userId,jdbcType=INTEGER},

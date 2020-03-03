@@ -102,7 +102,7 @@ public class CartController {
     }
     /**
      * 获取购物车中选中商品总数
-     * @param user
+     * @param
      * @return
      */
     @RequestMapping("get_cart_product_count.do")
@@ -178,5 +178,15 @@ public class CartController {
                     Const.UserEnum.NO_LOGIN.getDesc());
         }
         return cartService.unSelectAll(user) ;
+    }
+
+    @RequestMapping("over.do")
+    public ServerResponse over(HttpSession session){
+        Users user = (Users) session.getAttribute("user");
+        if (user == null) {
+            return ServerResponse.defeatedRS(Const.UserEnum.NO_LOGIN.getCode(),
+                    Const.UserEnum.NO_LOGIN.getDesc());
+        }
+        return  cartService.over(user);
     }
 }

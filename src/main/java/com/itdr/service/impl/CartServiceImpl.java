@@ -27,7 +27,7 @@ public class CartServiceImpl implements CartService {
     @Autowired
     ProductMapper productMapper;
     //获得cartVO
-    private  CartVO getCartVO(List<Cart> list){
+    protected   CartVO getCartVO(List<Cart> list){
         //获取购物车中对应的商品
         List<CartProductVO> products = new ArrayList<CartProductVO>();
         boolean bol = true;
@@ -345,6 +345,7 @@ public class CartServiceImpl implements CartService {
     }
 
 
+
     /**
      * 选中/取消选中某个商品
      * @param user
@@ -445,6 +446,27 @@ public class CartServiceImpl implements CartService {
         }
         CartVO cartVO = getCartVO(carList2.getData());
         return ServerResponse.successRS(cartVO);
+    }
+    @Override
+    public ServerResponse over(Users user) {
+        //判断当前用户购物车中是否有数据
+        List<Cart> carts = cartMapper.selectByUsersID(user.getId());
+        if(carts.isEmpty()){
+            return ServerResponse.defeatedRS(Const.CartCheckedEnum.EMPTY_CART.getCode(),
+                    Const.CartCheckedEnum.EMPTY_CART.getDesc());
+        }
+        //判断购物车是否有选中数据
+        boolean bol = false;
+        for (Cart cart : carts) {
+            if(cart.getChecked() == 1){
+                bol=true;
+            }
+        }
+        if(!bol){
+            return ServerResponse.defeatedRS(Const.CartCheckedEnum.NO_SELECT_PRODUCT.getCode(),
+                    Const.CartCheckedEnum.NO_SELECT_PRODUCT.getDesc());
+        }
+        return ServerResponse.successRS(true);
     }
 
 }

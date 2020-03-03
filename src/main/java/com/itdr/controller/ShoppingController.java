@@ -18,6 +18,13 @@ import javax.servlet.http.HttpSession;
 public class ShoppingController {
     @Autowired
     ShoppingService shoppingService;
+
+    /**
+     * 增加收货地址
+     * @param shopping
+     * @param session
+     * @return
+     */
     @RequestMapping("add.do")
     public ServerResponse addAddress(Shopping shopping, HttpSession session){
         Users user = (Users) session.getAttribute("user");
@@ -26,5 +33,46 @@ public class ShoppingController {
                     Const.UserEnum.NO_LOGIN.getDesc());
         }
         return shoppingService.add(shopping,user);
+    }
+
+    /**
+     * 查找收获地址
+     * @param session
+     * @return
+     */
+    @RequestMapping("select_address.do")
+    public ServerResponse selectAddress(HttpSession session){
+        Users user = (Users) session.getAttribute("user");
+        if (user == null) {
+            return ServerResponse.defeatedRS(Const.UserEnum.NO_LOGIN.getCode(),
+                    Const.UserEnum.NO_LOGIN.getDesc());
+        }
+        return shoppingService.selectAddress(user);
+    }
+    /**
+     * 更新收货地址
+     * @param shopping
+     * @param session
+     * @return
+     */
+    @RequestMapping("update_address.do")
+    public ServerResponse updateAddress(Shopping shopping,HttpSession session){
+        Users user = (Users) session.getAttribute("user");
+        if (user == null) {
+            return ServerResponse.defeatedRS(Const.UserEnum.NO_LOGIN.getCode(),
+                    Const.UserEnum.NO_LOGIN.getDesc());
+        }
+        return shoppingService.updateAddress(shopping,user);
+    }
+
+    @RequestMapping("delete_address.do")
+    public ServerResponse deleteAddress(Integer shoppingID,HttpSession session){
+        Users user = (Users) session.getAttribute("user");
+        if (user == null) {
+            return ServerResponse.defeatedRS(Const.UserEnum.NO_LOGIN.getCode(),
+                    Const.UserEnum.NO_LOGIN.getDesc());
+        }
+
+        return shoppingService.deleteAddress(shoppingID,user);
     }
 }

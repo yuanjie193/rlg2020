@@ -21,4 +21,6 @@ public interface CartService {
     ServerResponse unSelectAll(Users user);
 
     ServerResponse getCartProductCountAll(Users user);
+
+    ServerResponse over(Users user);
 }

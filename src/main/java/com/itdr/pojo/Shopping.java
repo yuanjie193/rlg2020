@@ -1,5 +1,7 @@
 package com.itdr.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Shopping {
@@ -7,24 +9,24 @@ public class Shopping {
 
     private Integer userId;
 
-    private String receiverName;
+    private String receiverName;//收货人姓名
 
-    private String receiverPhone;
+    private String receiverPhone;//收货人电话
 
-    private String receiverMobile;
+    private String receiverMobile;//收货人移动电话
 
-    private String receiverProvince;
+    private String receiverProvince;//省份
 
-    private String receiverCity;
+    private String receiverCity;//城市
 
-    private String receiverDistrict;
+    private String receiverDistrict;//区县
 
-    private String receiverAddress;
+    private String receiverAddress;//具体地址
 
-    private String receiverZip;
-
+    private String receiverZip;//邮编
+    @JsonFormat(locale = "zh",timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
-
+    @JsonFormat(locale = "zh",timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
     public Integer getId() {

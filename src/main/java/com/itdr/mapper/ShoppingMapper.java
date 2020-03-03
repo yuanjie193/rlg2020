@@ -12,11 +12,15 @@ public interface ShoppingMapper {
 
     int insertSelective(Shopping record);
 
-    Shopping selectByPrimaryKey( Integer id);
+    Shopping selectByPrimaryKey( @Param("id") Integer id,@Param("uid") Integer uid);
 
     int updateByPrimaryKeySelective(Shopping record);
 
     int updateByPrimaryKey(Shopping record);
 
     List selectByUserID(@Param("userID")Integer userID);
+
+    int deleteByPrimaryKeyAndUserID(@Param("shoppingID") Integer shoppingID, @Param("uid")Integer uid);
+
+    Shopping selectByShoppingID(Integer shoppingID);
 }

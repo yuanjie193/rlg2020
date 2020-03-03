@@ -110,7 +110,8 @@ public class Const {
         BEYOND_STOCK(104,"商品库存不足"),
         PRODUCT_NULL(105,"暂无此商品"),
         DELETE_FAYL(106,"删除失败"),
-        CART_TYPE(0,"增加");
+        CART_TYPE(0,"增加"),
+        NO_SELECT_PRODUCT(107,"没有选中得商品");
 
         private int code;
         private String desc;
@@ -136,15 +137,91 @@ public class Const {
             this.desc = desc;
         }
     }
-    //购物车枚举类
+    //收货地址枚举类
     public enum ShoppingEnum {
         EMPTY_PARAM(100, "参数不能为空"),
-        FAIL_ADD(101,"地址添加失败");
+        FAIL_ADD(101,"地址添加失败"),
+        EMPTY_RECEIVER_NAME(102,"收货人姓名不能为空！"),
+        EMPTY_RECEIVER_PHONE(103,"收货人电话不能为空"),
+        EMPTY_INFORMATION(104,"信息不能为空"),
+        NO_ADDRESS(105,"暂未添加收货地址"),
+        NOT_SHOP_ADDRESS(106,"更新失败");
 
         private int code;
         private String desc;
 
         private ShoppingEnum(int code, String desc) {
+            this.code = code;
+            this.desc = desc;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public void setCode(int code) {
+            this.code = code;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public void setDesc(String desc) {
+            this.desc = desc;
+        }
+    }
+    public enum aliPayEnum {
+        ORDER_CANCELED(0, "已取消"),
+        ORDER_UN_PAY(10, "未付款"),
+        ORDER_PAYED(20, "已付款"),
+        ORDER_SEND(40, "已发货"),
+        ORDER_SUCCESS(50, "交易成功"),
+        ORDER_CLOSED(60, "交易关闭"),
+        ORDER_UN_EXIT(70,"订单不存在"),
+        ORDER_UN_MATCH(70,"订单不匹配"),
+        FAILED_ORDER_USER(3,"订单与用户不匹配"),
+        FAIDED_ORDER(4,"下单失败"),
+        VERIFY_SIGNATURE_FALSE(5,"验签失败");
+        private int code;
+        private String desc;
+
+        private aliPayEnum(int code, String desc) {
+            this.code = code;
+            this.desc = desc;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public void setCode(int code) {
+            this.code = code;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public void setDesc(String desc) {
+            this.desc = desc;
+        }
+        }
+
+    public enum OrderStatusEnum {
+        ORDER_CANCELED(0, "已取消"),
+        ORDER_UN_PAY(10, "未付款"),
+        ORDER_PAYED(20, "已付款"),
+        ORDER_SEND(40, "已发货"),
+        ORDER_SUCCESS(50, "交易成功"),
+        ORDER_CLOSED(60, "交易关闭"),
+        FALSE_CREAT(70, "创建订单失败"),
+        FALSE_CREAT_ORDER_ITEM(80,"创建订单详情失败"),
+        NULL_ORDER_ITEM(90,"暂无商品信息");
+        private int code;
+        private String desc;
+
+        private OrderStatusEnum(int code, String desc) {
             this.code = code;
             this.desc = desc;
         }
