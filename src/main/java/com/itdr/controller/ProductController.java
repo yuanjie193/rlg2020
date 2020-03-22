@@ -40,11 +40,23 @@ public class ProductController {
         return productService.detail(productId);
     }
 
+    /**
+     * 获取商品列表
+     * @param keyWord
+     * @param pageName
+     * @param pageSize
+     * @param orderBy
+     * @return
+     */
     @RequestMapping("list.do")
     public ServerResponse<Product> list(String keyWord,
                         @RequestParam(value = "pageName",required = false,defaultValue = "1") Integer pageName,//页码
                         @RequestParam(value = "pageSize",required = false,defaultValue = "5")Integer pageSize,//每页数目
                         @RequestParam(value = "orderBy",required = false,defaultValue = "")String orderBy){     //排序规则
         return productService.list(keyWord,pageName,pageSize,orderBy);
+    }
+    @RequestMapping("show_product.do")
+    public ServerResponse<Product> showProduct(String type){     //排序规则
+        return productService.showProduct(type);
     }
 }

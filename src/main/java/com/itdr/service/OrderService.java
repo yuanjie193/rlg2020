@@ -9,4 +9,10 @@ public interface OrderService {
     ServerResponse getOrderCartProduct(Users user, Long orderNo);
 
     ServerResponse getOrderList(Users user, Integer pageSize, Integer pageNum);
+
+    ServerResponse getStatusNumber(Users user);
+
+    ServerResponse getCancelOrder(Users user, Integer type);
+
+    ServerResponse toCancelOrder(Users user, Long orderNo);
 }

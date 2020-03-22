@@ -63,4 +63,47 @@ public class OrderController {
         }
         return  orderService.getOrderList(user,pageSize,pageNum);
     }
+
+    /**
+     * 获取对应的订单状态数目
+     * @param session
+     * @return
+     */
+    @RequestMapping("get_status_number.do")
+    public ServerResponse getStatusNumber(HttpSession session){
+        Users user = (Users) session.getAttribute("user");
+        if (user == null) {
+            return ServerResponse.defeatedRS(Const.UserEnum.NO_LOGIN.getCode(),
+                    Const.UserEnum.NO_LOGIN.getDesc());
+        }
+        return  orderService.getStatusNumber(user);
+    }
+    /**
+     * 获取对应订单
+     * @param session
+     * @return
+     */
+    @RequestMapping("get_cancel_order.do")
+    public ServerResponse getCancelOrder(HttpSession session,Integer type){
+        Users user = (Users) session.getAttribute("user");
+        if (user == null) {
+            return ServerResponse.defeatedRS(Const.UserEnum.NO_LOGIN.getCode(),
+                    Const.UserEnum.NO_LOGIN.getDesc());
+        }
+        return  orderService.getCancelOrder(user,type);
+    }
+    /**
+     * 取消订单
+     * @param session
+     * @return
+     */
+    @RequestMapping("cancel_order.do")
+    public ServerResponse toCancelOrder(HttpSession session,Long orderNo ){
+        Users user = (Users) session.getAttribute("user");
+        if (user == null) {
+            return ServerResponse.defeatedRS(Const.UserEnum.NO_LOGIN.getCode(),
+                    Const.UserEnum.NO_LOGIN.getDesc());
+        }
+        return  orderService.toCancelOrder(user,orderNo);
+    }
 }

@@ -229,7 +229,9 @@ public class OrderServiceImpl implements OrderService {
                 OrderItemVO orderItemVO = ObjectToVOUtil.orderItemToOrderItemVO(orderItem);
                 orderItemVOList.add(orderItemVO);
             }
+            System.out.println(order.getShippingId());
             Shopping shopping = shoppingMapper.selectByShoppingID(order.getShippingId());
+            System.out.println(shopping);
             if(shopping == null){
                 return ServerResponse.defeatedRS(Const.DEFAULT_FAIL,Const.ShoppingEnum.NO_ADDRESS.getDesc());
             }
@@ -239,5 +241,93 @@ public class OrderServiceImpl implements OrderService {
         }
         PageInfo pageInfo = new PageInfo(orderVOList);
         return ServerResponse.successRS(pageInfo);
+    }
+
+    @Override
+    public ServerResponse getStatusNumber(Users user) {
+        List<Order> orderList = orderMapper.selectByUserID(user.getId());
+        if(orderList == null){
+            return ServerResponse.defeatedRS(Const.OrderStatusEnum.NULL_ORDER_ITEM.getCode(),
+                    Const.OrderStatusEnum.NULL_ORDER_ITEM.getDesc());
+        }
+        Integer qx = 0;
+        Integer dfk = 0;
+        Integer dfh = 0;
+        Integer dsh = 0;
+        for (Order order : orderList) {
+            if(order.getStatus() == 0){
+                qx=qx+1;
+            }
+            if(order.getStatus() == 10){
+                dfk+=1;
+            }
+            if(order.getStatus() == 20){
+                dfh = dfh+1;
+            }
+            if(order.getStatus() == 40){
+                dsh = dsh +1;
+            }
+        }
+        StatusVO statusVO = ObjectToVOUtil.getStatusVO(qx, dfk, dfh, dsh);
+        return ServerResponse.successRS(statusVO);
+    }
+
+    @Override
+    public ServerResponse getCancelOrder(Users user, Integer type) {
+        if(type == null || type < 0){
+            return ServerResponse.defeatedRS(Const.UNLAWFULNESS_PARAM);
+        }
+        List<Order> orderList = orderMapper.selectByUserIDAndStatus(user.getId(),type);
+        if(orderList.isEmpty()){
+            return ServerResponse.defeatedRS(Const.DEFAULT_FAIL,Const.OrderStatusEnum.NULL_ORDER_ITEM.getDesc());
+        }
+        //根据订单号和用户Id查询订单商品信息
+        List<OrderVO> orderVOList = new ArrayList<OrderVO>();
+        for (Order order : orderList) {
+            //根据订单号和用户Id查询订单商品信息
+            List<OrderItem> orderItems = orderItemMapper.selectByOrderNoAndUserID(order.getOrderNo(), user.getId());
+            if(orderItems.isEmpty()){
+                return ServerResponse.defeatedRS(Const.DEFAULT_FAIL,Const.OrderStatusEnum.NULL_ORDER_ITEM.getDesc());
+            }
+            List<OrderItemVO> orderItemVOList = new ArrayList<OrderItemVO>();
+            for (OrderItem orderItem : orderItems) {
+                OrderItemVO orderItemVO = ObjectToVOUtil.orderItemToOrderItemVO(orderItem);
+                orderItemVOList.add(orderItemVO);
+            }
+            System.out.println(order.getShippingId());
+            Shopping shopping = shoppingMapper.selectByShoppingID(order.getShippingId());
+            System.out.println(shopping);
+            if(shopping == null){
+                return ServerResponse.defeatedRS(Const.DEFAULT_FAIL,Const.ShoppingEnum.NO_ADDRESS.getDesc());
+            }
+            ShoppingVO shoppingVO = ObjectToVOUtil.shippingToShippingVO(shopping);
+            OrderVO orderVO = getOrderVO(order.getShippingId(), order, orderItemVOList, shoppingVO);
+            orderVOList.add(orderVO);
+        }
+        return ServerResponse.successRS(orderVOList);
+    }
+
+    /**
+     * 取消订单
+     * @param user
+     * @param orderNo
+     * @return
+     */
+    @Override
+    public ServerResponse toCancelOrder(Users user, Long orderNo) {
+        if(orderNo == null || orderNo <0){
+            return ServerResponse.defeatedRS(Const.UNLAWFULNESS_PARAM);
+        }
+        Order order = orderMapper.selectByOrderNoAndUserID(user.getId(), orderNo);
+        if(order == null){
+            return ServerResponse.defeatedRS(Const.OrderStatusEnum.NULL_ORDER.getCode(),
+                    Const.OrderStatusEnum.NULL_ORDER.getDesc());
+        }
+        if(order.getStatus() != 10){
+            return ServerResponse.defeatedRS(Const.OrderStatusEnum.ERROR_CHANG.getCode(),
+                    Const.OrderStatusEnum.ERROR_CHANG.getDesc());
+        }
+        int i = orderMapper.updateByOrderNo(orderNo);
+        return ServerResponse.successRS(Const.OrderStatusEnum.ORDER_CANCELED.getDesc());
     }
 }

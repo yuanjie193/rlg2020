@@ -23,4 +23,6 @@ public interface CartService {
     ServerResponse getCartProductCountAll(Users user);
 
     ServerResponse over(Users user);
+
+    ServerResponse checkedList(Users user);
 }

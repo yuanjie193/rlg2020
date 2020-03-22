@@ -34,6 +34,20 @@ public class CartController {
         }
         return cartService.list(user);
     }
+    /**
+     * 查看购物车选中商品
+     * @param session
+     * @return
+     */
+    @RequestMapping("checked_list.do")
+    public ServerResponse checkedList(HttpSession session){
+        Users user =(Users)session.getAttribute("user");
+        if(user == null){
+            return ServerResponse.defeatedRS(Const.UserEnum.NO_LOGIN.getCode(),
+                    Const.UserEnum.NO_LOGIN.getDesc());
+        }
+        return cartService.checkedList(user);
+    }
 
     /**
      * 购物车添加商品

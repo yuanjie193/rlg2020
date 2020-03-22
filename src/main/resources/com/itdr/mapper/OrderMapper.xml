@@ -49,6 +49,13 @@
       from gb_order
       where user_id = #{uid}
     </select>
+  <!--根据用户ID和状态码查询对应订单-->
+    <select id="selectByUserIDAndStatus" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from gb_order
+      where user_id = #{uid} and status = #{type}
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from gb_order
@@ -212,5 +219,12 @@
       payment_time = #{paymentTime,jdbcType=TIMESTAMP},
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByOrderNo">
+    update gb_order
+    set
+      status = 0,
+      update_time = now()
+    where order_no =#{orderNo} and status = 10
   </update>
 </mapper>

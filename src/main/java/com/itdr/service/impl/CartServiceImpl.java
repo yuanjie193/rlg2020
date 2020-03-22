@@ -63,6 +63,25 @@ public class CartServiceImpl implements CartService {
         }
         return ServerResponse.successRS(list);
     }
+    private ServerResponse getCarList2(Users users){
+        //查询登录用户的购物车信息
+        List<Cart> list = cartMapper.selectByUsersIDAndChecked(users.getId());
+        //用户购物车中是否有数据
+        if (list.size() == 0) {
+            return ServerResponse.defeatedRS(Const.CartCheckedEnum.EMPTY_CART.getCode(),
+                    Const.CartCheckedEnum.EMPTY_CART.getDesc());
+        }
+        return ServerResponse.successRS(list);
+    }
+    @Override
+    public ServerResponse checkedList(Users user) {
+        ServerResponse<List<Cart>> carList = getCarList2(user);
+        if(!carList.isSuccess()){
+            return carList;
+        }
+        CartVO cartVO = getCartVO(carList.getData());
+        return ServerResponse.successRS(cartVO);
+    }
 
     /**
      * 查询购物车商品信息
@@ -322,6 +341,8 @@ public class CartServiceImpl implements CartService {
         }
         return ServerResponse.successRS(count);
     }
+
+
 
     /**
      * 获取购物车中全部商品总数

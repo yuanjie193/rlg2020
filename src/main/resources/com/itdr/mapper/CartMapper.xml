@@ -35,8 +35,15 @@
     from gb_cart
     where user_id = #{userID,jdbcType=INTEGER} and product_id=#{productID}
   </select>
+  <!--查询购物车中选中的商品数据-->
+    <select id="selectByUsersIDAndChecked" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from gb_cart
+      where user_id = #{uid,jdbcType=INTEGER} and checked = 1
+    </select>
 
-  <!--删除购物车对应商品-->
+    <!--删除购物车对应商品-->
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from gb_cart
     where product_id = #{productID,jdbcType=INTEGER} and user_id = #{userID}

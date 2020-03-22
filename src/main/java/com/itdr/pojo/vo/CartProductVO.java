@@ -31,7 +31,5 @@ public class CartProductVO {
 
     private Integer productStatus;
     private Integer productChecked;
-
     private String limitQuantity;
-
 }

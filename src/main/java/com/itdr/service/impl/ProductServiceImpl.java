@@ -89,4 +89,19 @@ public  class ProductServiceImpl implements ProductService {
         //返回成功数据
         return ServerResponse.successRS(pageInfo);
     }
+
+    @Override
+    public ServerResponse<Product> showProduct(String type) {
+        List<Product> li = productMapper. selectByType(type);
+        if(li.isEmpty()){
+            return ServerResponse.defeatedRS(Const.DEFAULT_FAIL,Const.ProductEnum.NULL_PRODUCI.getDesc());
+        }
+        //封装Vo
+        List<ProductVO> liNew = new ArrayList<ProductVO>();
+        for (Product product : li) {
+            ProductVO productVO = ObjectToVOUtil.productToVO(product);
+            liNew.add(productVO);
+        }
+        return ServerResponse.successRS(liNew);
+    }
 }

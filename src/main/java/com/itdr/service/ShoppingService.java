@@ -12,4 +12,8 @@ public interface ShoppingService {
     ServerResponse updateAddress(Shopping shopping,Users user);
 
     ServerResponse deleteAddress(Integer shoppingID, Users user);
+
+    ServerResponse selectOneAddress(Users user, Integer sid);
+
+    ServerResponse selectDefaultAddress(Users user);
 }

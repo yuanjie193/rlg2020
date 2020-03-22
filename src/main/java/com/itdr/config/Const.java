@@ -69,7 +69,8 @@ public class Const {
         PRODUCT_OFFLINE(2, "下架"),
         PRODUCT_DELETE(3, "删除"),
         ERROR_PAMAR(4, "参数错误"),
-        NO_PRODUCT(5, "该商品已下架");
+        NO_PRODUCT(5, "该商品已下架"),
+        NULL_PRODUCI(6,"暂无商品数据");
         private int code;
         private String desc;
 
@@ -145,7 +146,8 @@ public class Const {
         EMPTY_RECEIVER_PHONE(103,"收货人电话不能为空"),
         EMPTY_INFORMATION(104,"信息不能为空"),
         NO_ADDRESS(105,"暂未添加收货地址"),
-        NOT_SHOP_ADDRESS(106,"更新失败");
+        NOT_SHOP_ADDRESS(106,"更新失败"),
+        NO_DEFAULT_ADDRESS(107,"暂无默认收货地址");
 
         private int code;
         private String desc;
@@ -217,7 +219,9 @@ public class Const {
         ORDER_CLOSED(60, "交易关闭"),
         FALSE_CREAT(70, "创建订单失败"),
         FALSE_CREAT_ORDER_ITEM(80,"创建订单详情失败"),
-        NULL_ORDER_ITEM(90,"暂无商品信息");
+        NULL_ORDER_ITEM(90,"暂无商品信息"),
+        NULL_ORDER(91,"订单不存在"),
+        ERROR_CHANG(92,"操作有误");
         private int code;
         private String desc;
 

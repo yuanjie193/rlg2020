@@ -23,4 +23,9 @@ public interface ShoppingMapper {
     int deleteByPrimaryKeyAndUserID(@Param("shoppingID") Integer shoppingID, @Param("uid")Integer uid);
 
     Shopping selectByShoppingID(Integer shoppingID);
+
+    int updateByUserID(@Param("userID") Integer userID);
+
+    Shopping selectByDefaultAddress(@Param("uid") Integer uid);
+
 }

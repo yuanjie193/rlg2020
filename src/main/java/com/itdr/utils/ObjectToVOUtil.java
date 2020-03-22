@@ -210,6 +210,7 @@ public class ObjectToVOUtil {
         shoppingVO.setReceiverZip(shopping.getReceiverZip());
         return shoppingVO;
     }
+
     public static OrderMsgVO getOrderMsgVO(List<OrderItemVO> orderItemVOList,BigDecimal productTotalPrice){
         OrderMsgVO orderMsgVO = new OrderMsgVO();
         orderMsgVO.setOrderItemVOList(orderItemVOList);
@@ -217,4 +218,34 @@ public class ObjectToVOUtil {
         orderMsgVO.setProductTotalPrice(productTotalPrice);
         return orderMsgVO;
     }
+    /**
+     * 封装地址详情2,为前端vant框架获取收货地址
+     * @param shopping
+     * @return
+     */
+    public static ShoppingVO2 shippingToShippingVO2(Shopping shopping){
+        ShoppingVO2 shoppingVO2 = new ShoppingVO2();
+       shoppingVO2.setId(shopping.getId());
+       shoppingVO2.setName(shopping.getReceiverName());
+       shoppingVO2.setTel(shopping.getReceiverMobile());
+       if(shopping.getReceiverPhone() != null && shopping.getReceiverPhone().equals("true")){
+           shoppingVO2.setIsDefault(true);
+       }
+        if(shopping.getReceiverPhone() != null && shopping.getReceiverPhone().equals("false")){
+            shoppingVO2.setIsDefault(false);
+        }
+        String address = shopping.getReceiverProvince()+shopping.getReceiverCity()+shopping.getReceiverDistrict()+shopping.getReceiverAddress();
+        shoppingVO2.setAddress(address);
+        return shoppingVO2;
+    }
+//    获取对应状态数量
+    public static StatusVO getStatusVO(Integer qx,Integer dfk, Integer dfh ,Integer dsh){
+        StatusVO s = new StatusVO();
+        s.setDfh(dfh);
+        s.setQx(qx);
+        s.setDfk(dfk);
+        s.setDsh(dsh);
+        return s;
+    }
+
 }

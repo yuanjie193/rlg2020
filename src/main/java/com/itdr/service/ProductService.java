@@ -10,4 +10,6 @@ public interface ProductService {
     ServerResponse<Product> detail(Integer productId);
 
     ServerResponse<Product> list(String keyWord,Integer pageName,Integer pageSize,String orderBy);
+
+    ServerResponse<Product> showProduct(String type);
 }

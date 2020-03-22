@@ -43,8 +43,25 @@
     from gb_product
     where name like #{word}
   </select>
+  <!--最新最热商品查询-->
+    <select id="selectByType" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from gb_product
+      <where>
+      <if test="type=='isNew'">
+        is_new = 1
+      </if>
+      <if test="type=='isHot'">
+      is_hot = 1
+      </if>
+      <if test="type=='isBanner'">
+        is_banner = 1
+      </if>
+      </where>
+    </select>
 
-  <update id="updateByPrimaryKey" parameterType="com.itdr.pojo.Product" >
+    <update id="updateByPrimaryKey" parameterType="com.itdr.pojo.Product" >
     update gb_product
     set category_id = #{categoryId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},

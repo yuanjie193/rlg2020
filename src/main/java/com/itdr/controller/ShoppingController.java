@@ -49,6 +49,37 @@ public class ShoppingController {
         }
         return shoppingService.selectAddress(user);
     }
+
+    /**
+     * 查找单个收货地址
+     * @param sid
+     * @param session
+     * @return
+     */
+    @RequestMapping("select_one_address.do")
+    public ServerResponse selectOneAddress(Integer sid,HttpSession session){
+        Users user = (Users) session.getAttribute("user");
+        if (user == null) {
+            return ServerResponse.defeatedRS(Const.UserEnum.NO_LOGIN.getCode(),
+                    Const.UserEnum.NO_LOGIN.getDesc());
+        }
+        return shoppingService.selectOneAddress(user,sid);
+    }
+    /**
+     * 查找默认收货地址
+     * @param sid
+     * @param session
+     * @return
+     */
+    @RequestMapping("select_default_address.do")
+    public ServerResponse selectDefaultAddress(HttpSession session){
+        Users user = (Users) session.getAttribute("user");
+        if (user == null) {
+            return ServerResponse.defeatedRS(Const.UserEnum.NO_LOGIN.getCode(),
+                    Const.UserEnum.NO_LOGIN.getDesc());
+        }
+        return shoppingService.selectDefaultAddress(user);
+    }
     /**
      * 更新收货地址
      * @param shopping

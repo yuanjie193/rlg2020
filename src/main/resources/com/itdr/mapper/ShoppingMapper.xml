@@ -40,6 +40,13 @@
       from gb_shopping
       where id = #{shoppingID,jdbcType=INTEGER}
     </select>
+  <!--查找默认收货地址-->
+    <select id="selectByDefaultAddress" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from gb_shopping
+      where user_id = #{uid,jdbcType=INTEGER} and receiver_phone = 'true'
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from gb_shopping
@@ -191,4 +198,11 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!--把用户的所有地址设为非默认地址-->
+    <update id="updateByUserID">
+      update gb_shopping
+      set
+          receiver_phone = 'false'
+      where user_id = #{userID,jdbcType=INTEGER}
+    </update>
 </mapper>
