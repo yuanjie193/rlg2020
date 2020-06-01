@@ -48,7 +48,6 @@ public class OrderController {
             return ServerResponse.defeatedRS(Const.UserEnum.NO_LOGIN.getCode(),
                     Const.UserEnum.NO_LOGIN.getDesc());
         }
-        System.out.println(orderNo);
         return  orderService.getOrderCartProduct(user,orderNo);
     }
 

@@ -65,6 +65,7 @@ public class OrderServiceImpl implements OrderService {
         orderVO.setSendTime(o.getSendTime());
         orderVO.setEndTime(o.getEndTime());
         orderVO.setCloseTime(o.getCloseTime());
+        orderVO.setCreateTime(o.getCreateTime());
         return orderVO;
     }
     @Override
@@ -159,8 +160,14 @@ public class OrderServiceImpl implements OrderService {
             }
             //查询支付总价
             Order order = orderMapper.selectByOrderNo(orderNo);
-            OrderMsgVO orderMsgVO = ObjectToVOUtil.getOrderMsgVO(orderItemVOList,order.getPayment());
-            return ServerResponse.successRS(orderMsgVO);
+//          OrderMsgVO orderMsgVO = ObjectToVOUtil.getOrderMsgVO(orderItemVOList,order.getPayment());
+            Shopping shopping = shoppingMapper.selectByShoppingID(order.getShippingId());
+            if(shopping == null){
+                return ServerResponse.defeatedRS(Const.DEFAULT_FAIL,Const.ShoppingEnum.NO_ADDRESS.getDesc());
+            }
+            ShoppingVO shoppingVO = ObjectToVOUtil.shippingToShippingVO(shopping);
+            OrderVO orderVO = getOrderVO(order.getShippingId(),order,orderItemVOList, shoppingVO);
+            return ServerResponse.successRS(orderVO);
         }else {
             //没有订单编号时
             //判断当前用户购物车中是否有数据

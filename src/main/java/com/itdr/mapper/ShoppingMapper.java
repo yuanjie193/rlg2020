@@ -28,4 +28,5 @@ public interface ShoppingMapper {
 
     Shopping selectByDefaultAddress(@Param("uid") Integer uid);
 
+    int updateByUserIDAndShoppingID(@Param("sid") Integer shoppingID, @Param("uid") Integer id);
 }

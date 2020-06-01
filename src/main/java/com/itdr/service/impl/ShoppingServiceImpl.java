@@ -158,7 +158,7 @@ public class ShoppingServiceImpl implements ShoppingService {
         if(StringUtils.isEmpty(shoppingID)){
             return ServerResponse.defeatedRS(Const.DEFAULT_FAIL,Const.ShoppingEnum.EMPTY_INFORMATION.getDesc());
         }
-       int i =  shoppingMapper.deleteByPrimaryKeyAndUserID(shoppingID,user.getId());
+       int i =  shoppingMapper.updateByUserIDAndShoppingID(shoppingID,user.getId());
         if(i<=0){
             return ServerResponse.defeatedRS(Const.DEFAULT_FAIL,Const.ShoppingEnum.NOT_SHOP_ADDRESS.getDesc());
         }

@@ -7,6 +7,8 @@ import java.util.Date;
 public class Shopping {
     private Integer id;
 
+    private Integer status;
+
     private Integer userId;
 
     private String receiverName;//收货人姓名
@@ -28,6 +30,14 @@ public class Shopping {
     private Date createTime;
     @JsonFormat(locale = "zh",timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
     public Integer getId() {
         return id;

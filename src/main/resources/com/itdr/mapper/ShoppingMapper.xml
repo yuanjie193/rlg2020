@@ -14,24 +14,25 @@
     <result column="receiver_zip" property="receiverZip" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, user_id, receiver_name, receiver_phone, receiver_mobile, receiver_province, receiver_city, 
-    receiver_district, receiver_address, receiver_zip, create_time, update_time
+    receiver_district, receiver_address, receiver_zip,status, create_time, update_time
   </sql>
   <!--根据收获地址ID和用户ID查询地址-->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap"  >
     select 
     <include refid="Base_Column_List" />
     from gb_shopping
-    where id = #{id,jdbcType=INTEGER} and user_id=#{uid}
+    where id = #{id,jdbcType=INTEGER} and user_id=#{uid} and status = 0
   </select>
   <!--查询用户的所有收货地址-->
   <select id="selectByUserID" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from gb_shopping
-    where user_id = #{userID,jdbcType=INTEGER}
+    where user_id = #{userID,jdbcType=INTEGER} and status = 0
   </select>
   <!--根据收获地址ID查询地址-->
     <select id="selectByShoppingID" resultMap="BaseResultMap" >
@@ -45,7 +46,7 @@
       select
       <include refid="Base_Column_List" />
       from gb_shopping
-      where user_id = #{uid,jdbcType=INTEGER} and receiver_phone = 'true'
+      where user_id = #{uid,jdbcType=INTEGER} and receiver_phone = 'true' and status = 0
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
@@ -63,12 +64,12 @@
     insert into gb_shopping (id, user_id, receiver_name, 
       receiver_phone, receiver_mobile, receiver_province, 
       receiver_city, receiver_district, receiver_address, 
-      receiver_zip, create_time, update_time
+      receiver_zip,status, create_time, update_time
       )
     values (null, #{userId,jdbcType=INTEGER}, #{receiverName,jdbcType=VARCHAR},
       #{receiverPhone,jdbcType=VARCHAR}, #{receiverMobile,jdbcType=VARCHAR}, #{receiverProvince,jdbcType=VARCHAR}, 
       #{receiverCity,jdbcType=VARCHAR}, #{receiverDistrict,jdbcType=VARCHAR}, #{receiverAddress,jdbcType=VARCHAR}, 
-      #{receiverZip,jdbcType=VARCHAR}, now(), now())
+      #{receiverZip,jdbcType=VARCHAR},0, now(), now())
   </insert>
 
   <insert id="insertSelective" parameterType="com.itdr.pojo.Shopping" >
@@ -205,4 +206,10 @@
           receiver_phone = 'false'
       where user_id = #{userID,jdbcType=INTEGER}
     </update>
+  <update id="updateByUserIDAndShoppingID">
+    update gb_shopping
+    set
+      status = 1
+    where user_id = #{uid,jdbcType=INTEGER} and id = #{sid}
+  </update>
 </mapper>
